@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 安装依赖
+pip3 install --break-system-packages luma.oled pillow
+
+# 启用服务
+systemctl daemon-reload
+systemctl enable oled-display.service
+
+# 交互式配置
+echo "请输入屏幕尺寸（格式：128x32）："
+read screen_size
+
+if [[ $screen_size =~ ^[0-9]+x[0-9]+$ ]]; then
+  width=$(echo $screen_size | cut -d'x' -f1)
+  height=$(echo $screen_size | cut -d'x' -f2)
+  
+  cat > /etc/oled-display.conf <<EOL
+[DISPLAY]
+width = $width
+height = $height
+EOL
+  
+  systemctl restart oled-display.service
+fi
