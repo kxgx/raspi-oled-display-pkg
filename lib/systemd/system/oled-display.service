@@ -1,0 +1,17 @@
+[Unit]
+Description=OLED Display Service
+After=network.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/oled-display.py
+Restart=on-failure
+RestartSec=10s
+User=root
+WorkingDirectory=/usr/local/bin
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
