@@ -1,0 +1,6 @@
+Package: oled-display
+Version: 1.0
+Architecture: all
+Maintainer: Your Name <your@email.com>
+Description: OLED Display Service for Raspberry Pi
+Depends: python3, python3-pip
