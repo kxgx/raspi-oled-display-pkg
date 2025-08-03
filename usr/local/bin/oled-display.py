@@ -40,21 +40,34 @@ def load_config():
             'ntp_server': 'ntp.ntsc.ac.cn', 'timeout': 3}
 
 def sync_time(config):
-    """时间同步函数"""
-    try:
-        client = ntplib.NTPClient()
-        response = client.request(config['ntp_server'], timeout=config['timeout'])
-        ntp_time = datetime.datetime.fromtimestamp(response.tx_time)
-        subprocess.run(['sudo', 'date', '-s', ntp_time.strftime('%Y-%m-%d %H:%M:%S')], check=True)
-        return "时间同步: 成功"
-    except (ntplib.NTPException, socket.gaierror, subprocess.CalledProcessError) as e:
-        log_error(f"NTP同步失败: {str(e)}")
+    """时间同步函数（网络优先）"""
+    def check_network():
         try:
-            subprocess.run(['sudo', 'hwclock', '--hctosys'], check=True)
-            return "时间同步: RTC成功"
-        except subprocess.CalledProcessError as e:
-            log_error(f"RTC同步失败: {str(e)}")
-            return "时间同步: 失败"
+            socket.create_connection((config['ntp_server'], 123), timeout=2)
+            return True
+        except OSError:
+            return False
+    
+    # 优先尝试NTP同步（仅在网络连通时）
+    if check_network():
+        try:
+            client = ntplib.NTPClient()
+            response = client.request(config['ntp_server'], timeout=config['timeout'])
+            ntp_time = datetime.datetime.fromtimestamp(response.tx_time)
+            subprocess.run(['sudo', 'date', '-s', ntp_time.strftime('%Y-%m-%d %H:%M:%S')], check=True)
+            log_error(f"NTP同步成功: {ntp_time}")
+            return "时间同步: NTP成功"
+        except (ntplib.NTPException, socket.gaierror, subprocess.CalledProcessError) as e:
+            log_error(f"NTP同步失败: {str(e)}")
+    
+    # 次选RTC同步
+    try:
+        subprocess.run(['sudo', 'hwclock', '--hctosys'], check=True)
+        log_error("RTC同步成功")
+        return "时间同步: RTC成功"
+    except subprocess.CalledProcessError as e:
+        log_error(f"RTC同步失败: {str(e)}")
+        return "时间同步: 失败"
 
 def main():
     try:
