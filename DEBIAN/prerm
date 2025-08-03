@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# 停止服务但不删除配置
+systemctl stop oled-display.service 2>/dev/null
+systemctl disable oled-display.service 2>/dev/null
+
+# 保留虚拟环境以便升级
+# 实际卸载应该在postrm脚本中处理
