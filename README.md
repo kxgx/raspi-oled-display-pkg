@@ -6,5 +6,8 @@
 git clone https://github.com/kxgx/raspi-oled-display-pkg.git
 
 sudo dpkg-deb --build raspi-oled-display-pkg
+
+## 下载
+wget https://github.com/kxgx/raspi-oled-display-pkg/releases/download/v1.1.1/raspi-oled-display-pkg.deb
 ## 安装
 sudo dpkg -i raspi-oled-display-pkg.deb
