@@ -14,4 +14,5 @@ sudo dpkg-deb --build raspi-oled-display-pkg
 
 ## 安装
 wget https://github.com/kxgx/raspi-oled-display-pkg/releases/download/v1.1.1/raspi-oled-display-pkg.deb
+
 sudo dpkg -i raspi-oled-display-pkg.deb
