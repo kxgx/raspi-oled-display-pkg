@@ -1,6 +1,17 @@
 Package: oled-display
-Version: 1.0
+Version: 1.0-1
 Architecture: all
-Maintainer: Your Name <your@email.com>
+Maintainer: kxgxv <your@email.com>
+Depends: python3 (>= 3.7), 
+         python3-pip,
+         python3-venv,
+         python3-pil (>= 7.0.0),
+         python3-smbus2,
+         python3-ntplib,
+         i2c-tools,
+         fonts-wqy-microhei
+Recommends: ntpdate
 Description: OLED Display Service for Raspberry Pi
-Depends: python3, python3-pip
+ This package provides a system service to display system information
+ on OLED screens connected to Raspberry Pi devices.
+Homepage: https://github.com/kxgx/raspi-oled-display-pkg
