@@ -12,6 +12,6 @@ sudo dpkg-deb --build raspi-oled-display-pkg
 
 所以最新版直接下载安装包安装即可，想要进行最新版打包需要在发布页下载对应文件进行替换才能打包最新版
 
-## 安装已打包安装包
+## 安装
 wget https://github.com/kxgx/raspi-oled-display-pkg/releases/download/v1.1.1/raspi-oled-display-pkg.deb
 sudo dpkg -i raspi-oled-display-pkg.deb
