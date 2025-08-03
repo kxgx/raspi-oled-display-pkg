@@ -1,5 +1,5 @@
 Package: oled-display
-Version: 1.0-1
+Version: 1.0-2
 Architecture: all
 Maintainer: kxgxv <your@email.com>
 Depends: python3 (>= 3.7), 
