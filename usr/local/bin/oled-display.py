@@ -64,7 +64,7 @@ def sync_time(config):
     try:
         subprocess.run(['sudo', 'hwclock', '--hctosys'], check=True)
         log_error("RTC同步成功")
-        return " RTC同步成功"
+        return "RTC同步成功"
     except subprocess.CalledProcessError as e:
         log_error(f"RTC同步失败: {str(e)}")
         return "RTC同步失败"
