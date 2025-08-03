@@ -19,14 +19,14 @@ if ! lsmod | grep -q i2c_dev; then
     modprobe i2c-dev
 fi
 
-# 3. 创建虚拟环境（使用系统站点包）
+# 创建虚拟环境（使用系统站点包）
 echo "创建Python虚拟环境..."
 python3 -m venv --system-site-packages "$VENV_PATH" || {
     echo "虚拟环境创建失败"
     exit 1
 }
 
-# 4. 安装核心依赖（排除已由系统提供的pillow）
+# 安装核心依赖
 echo "安装Python依赖..."
 "$VENV_PATH/bin/pip" install --no-index \
     --find-links="file://$DEPS_DIR" \
@@ -42,7 +42,7 @@ if [ ! -w /etc ]; then
     exit 1
 fi
 
-# 强制写入配置文件（使用sudo权限）
+# 创建配置文件
 echo "正在创建配置文件..."
 sudo tee "$CONFIG_FILE" > /dev/null <<EOL
 [DISPLAY]
@@ -101,8 +101,11 @@ if [ -t 0 ]; then
             fi
         done
     fi
-else
-    # 非交互模式下自动启动服务
+fi
+
+# 无论是否交互都启动服务（如果未运行）
+if ! systemctl is-active --quiet oled-display.service; then
+    echo "启动OLED显示服务..."
     systemctl start oled-display.service
 fi
 
