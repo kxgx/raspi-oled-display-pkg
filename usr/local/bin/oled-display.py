@@ -33,7 +33,7 @@ def load_config():
 def main():
     try:
         config = load_config()
-        
+
         # 初始化显示设备（增加重试机制）
         for _ in range(3):
             try:
@@ -49,7 +49,7 @@ def main():
         # 字体配置
         def load_font():
             try:
-                return ImageFont.truetype("wqy-microhei.ttc", 12)
+                return ImageFont.truetype("wqy-microhei.ttc", 10)
             except:
                 return ImageFont.load_default()
 
@@ -70,7 +70,7 @@ def main():
             return {
                 "IP地址": subprocess.getoutput("hostname -I | awk '{print $1}'"),
                 "当前日期": now.strftime("%Y年%m月%d日"),
-                "当前时间": now.strftime("%H:%M:%S"),
+                "当前时间": now.strftime("%H时%M分%S秒"),
                 "CPU负载": subprocess.getoutput("top -bn1 | grep load | awk '{printf \"%.1f\", $(NF-2)}'"),
                 "CPU温度": subprocess.getoutput("vcgencmd measure_temp | cut -d= -f2").replace("'C", "℃"),
                 "内存使用": subprocess.getoutput("free -m | awk 'NR==2{printf \"%d/%dMB\", $3,$2}'"),
@@ -89,7 +89,7 @@ def main():
                 ("内存使用", info_dict["内存使用"]),
                 ("存储空间", info_dict["存储空间"])
             ]
-            
+
             # 确保时间日期在同一屏显示
             for i in range(0, len(all_items), max_lines):
                 group = {}
@@ -105,7 +105,7 @@ def main():
                     for item in all_items[i:i+max_lines]:
                         group[item[0]] = item[1]
                     groups.append(group)
-            
+
             return groups
 
         # 绘制显示内容
@@ -121,7 +121,7 @@ def main():
 
         info_groups = group_infos(get_system_info())
         current_group = 0
-        
+
         while True:
             image = Image.new("1", (config['width'], config['height']))
             draw = ImageDraw.Draw(image)
