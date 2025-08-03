@@ -1,5 +1,6 @@
 # raspi-oled-display-pkg
 适配树莓派5的i2c oled中文系统信息显示程序
+程序由AI生成，已经过测试
 
 ## 安装包打包
 git clone https://github.com/kxgx/raspi-oled-display-pkg.git
